@@ -1,15 +1,16 @@
-import { getInvoice } from "../services/getInvoice"
-import { InvoiceView } from "./InvoiceView";
-import { ClientView } from "./ClientView";
-import { CompanyView } from "./CompanyView";
-import { ListItemsView } from "./ListItemsView";
-import { RowItemView } from "./RowItemView";
+import { getInvoice } from "./services/getInvoice"
+import { InvoiceView } from "./components/InvoiceView";
+import { ClientView } from "./components/ClientView";
+import { CompanyView } from "./components/CompanyView";
+import { ListItemsView } from "./components/ListItemsView";
+import { TotalView } from "./components/TotalView";
+
 
 
 
 export const InvoiceApp = () => {
 
-    const { id, name, client, company, items } = getInvoice();
+    const { total, id, name, client, company, items } = getInvoice();
 
     return (
         <>
@@ -33,6 +34,7 @@ export const InvoiceApp = () => {
                             </div>
                         </div>
                         <ListItemsView title="Productos de la factura" items={items} />
+                        <TotalView total = { total } />
                     </div>
                 </div>
             </div>

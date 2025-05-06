@@ -1,13 +1,18 @@
+import PropTypes from 'prop-types';
+export const ClientView = ({ title, client }) => {
 
-
-export const ClientView = ({title, client}) => {
-
-    const { name: nameClient, lastnName, address } = client;
-    const { country, city, number, street } = address;
+    const { name: nameClient,
+        lastnName,
+        address: {
+            country,
+            city,
+            number,
+            street }
+    } = client;
 
     return (
         <>
-            <h3>{ title }</h3>
+            <h3>{title}</h3>
             <ul className="list-group">
                 <li className="list-group-item active">Nombre: {nameClient}</li>
                 <li className="list-group-item">Apellido: {lastnName}</li>
@@ -16,3 +21,8 @@ export const ClientView = ({title, client}) => {
         </>
     );
 }
+
+ClientView.prototypes = {
+    title: PropTypes.string.isRequired,
+    client: PropTypes.object.isRequired
+};
