@@ -34,7 +34,24 @@ export const InvoiceApp = () => {
                             </div>
                         </div>
                         <ListItemsView title="Productos de la factura" items={items} />
-                        <TotalView total = { total } />
+                        <TotalView total={total} />
+                        <form>
+                            <input
+                                type="text"
+                                name="product"
+                                placeholder="Producto"
+                                className="form-control" />
+                            <input
+                                type="text"
+                                name="price"
+                                placeholder="Precio"
+                                className="form-control" />
+                            <input
+                                type="text"
+                                name="quantity"
+                                placeholder="Cantidad"
+                                className="form-control" />
+                        </form>
                     </div>
                 </div>
             </div>
