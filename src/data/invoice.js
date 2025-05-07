@@ -23,7 +23,7 @@ export const invoice = {
             id: 1,
             product: 'Placa base',
             price: 100,
-            quantity: 1,
+            quantity: 3,
         
         },
         {
