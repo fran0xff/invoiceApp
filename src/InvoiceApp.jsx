@@ -1,25 +1,23 @@
 import { useEffect, useState } from "react";
-import { calculateTotal, getInvoice } from "./services/getInvoice"
-import { InvoiceView } from "./components/InvoiceView";
+import { getInvoice, calculateTotal } from "./services/getInvoice"
 import { ClientView } from "./components/ClientView";
 import { CompanyView } from "./components/CompanyView";
+import { InvoiceView } from "./components/InvoiceView";
 import { ListItemsView } from "./components/ListItemsView";
 import { TotalView } from "./components/TotalView";
 import { FormItemsView } from "./components/FormItemsView";
 
-
 const invoiceInitial = {
-    id: 10,
+    id: 0,
     name: '',
     client: {
         name: '',
-        lastnName: '',
+        lastName: '',
         address: {
-            street: '',
-            number: 0,
-            city: '',
             country: '',
-
+            city: '',
+            street: '',
+            number: 0
         }
     },
     company: {
@@ -27,13 +25,11 @@ const invoiceInitial = {
         fiscalNumber: 0,
     },
     items: []
-
 };
-
 
 export const InvoiceApp = () => {
 
-    const [ activeForm, setActiveForm] = useState(false);
+    const [activeForm, setActiveForm] = useState(false);
 
     const [total, setTotal] = useState(0);
 
@@ -47,37 +43,34 @@ export const InvoiceApp = () => {
 
     useEffect(() => {
         const data = getInvoice();
-        console.log(invoice);
+        console.log(data);
         setInvoice(data);
         setItems(data.items);
     }, []);
 
     useEffect(() => {
-        //console.log('el counter cambió');
+        // console.log('el counter cambio!')
     }, [counter]);
 
     useEffect(() => {
-        console.log(total);
-    }, [total])
-
-    useEffect(() => {
         setTotal(calculateTotal(items));
+        // console.log('el items cambio!')
     }, [items]);
 
-    const HandlerAddItems = ({ product, price, quantity }) => {
+    const handlerAddItems = ({ product, price, quantity}) => {
 
         setItems([...items, {
-            Id: counter,
+            id: counter,
             product: product.trim(),
-            price: parseInt(price.trim(), 10),
+            price: +price.trim(),
             quantity: parseInt(quantity.trim(), 10)
         }]);
 
         setCounter(counter + 1);
     }
 
-    const handlerDeleteItem = () => {
-        setItems(items.filter(item => item.Id !== id))
+    const handlerDeleteItem = (id) => {
+        setItems(items.filter(item => item.id !== id ))
     }
 
     const onActiveForm = () => {
@@ -85,38 +78,37 @@ export const InvoiceApp = () => {
     }
 
     return (
-
         <>
             <div className="container">
 
                 <div className="card my-3">
 
                     <div className="card-header">
-                        Ejemplo de Factura
+                        Ejemplo Factura
                     </div>
                     <div className="card-body">
-                        <InvoiceView id={id} name={name} />
+                        <InvoiceView id={ id } name={ name } />
 
                         <div className="row my-3">
 
                             <div className="col">
                                 <ClientView title="Datos del cliente" client={client} />
                             </div>
+
                             <div className="col">
                                 <CompanyView title="Datos de la empresa" company={company} />
                             </div>
+
                         </div>
+
                         <ListItemsView title="Productos de la factura" items={items} handlerDeleteItem={ id => handlerDeleteItem(id) } />
                         <TotalView total={total} />
                         <button className="btn btn-secondary"
-                            onClick={ onActiveForm }>{!activeForm ? 'Agregar producto': 'Cerrar Form' }</button>
-                        { !activeForm ? '': <FormItemsView handler={ HandlerAddItems } />}
-
+                            onClick={onActiveForm}>{!activeForm ? 'Agregar Item': 'Cerrar Form'}</button>
+                        { !activeForm || <FormItemsView handler={handlerAddItems} /> }
                     </div>
                 </div>
             </div>
         </>
     )
-
 }
-
